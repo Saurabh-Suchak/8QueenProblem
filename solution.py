@@ -15,7 +15,8 @@ class Node:
     
     def __hash__(self):
         return hash(tuple(self.board))
-    
+
+ # checks if any pair of queens is attacking   
 def is_goal(node):
     for i in range(len(node.board)):
         for j in range(i + 1, len(node.board)):
@@ -24,6 +25,9 @@ def is_goal(node):
             if abs(node.board[i] - node.board[j]) == abs(i - j):
                 return False
     return True
+
+
+# generate successors of each state by moving each queen by a row and appneding to the successor list 
 
 def get_successors(node):
     successors = []
@@ -35,6 +39,7 @@ def get_successors(node):
                 successors.append(Node(new_board, calculate_h(new_board), node.g + 1))
     return successors
 
+# calculate the heuristc value (no. of pairs of queens attacking)
 def calculate_h(board):
     h = 0
     for i in range(len(board)):
@@ -43,6 +48,8 @@ def calculate_h(board):
                 h += 1
     return h
 
+
+# main fun that implements a* - initialise a heap to push all states in it, then it evaluates f and generates succussors , if successors f less then push in open set and pop current
 def a_star(start):
     heap = [start]
     closed_set = set()
